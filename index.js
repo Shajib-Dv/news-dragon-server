@@ -22,8 +22,18 @@ app.get("/news", (req, res) => {
 
 app.get("/news/:id", (req, res) => {
   const id = req.params.id;
-  const singleNews = news.filter((n) => n["_id"] === id) || {};
+  const singleNews = news.find((n) => n["_id"] === id) || {};
   res.send(singleNews);
+});
+
+app.get("/news/category/:category", (req, res) => {
+  const category = parseInt(req.params.category);
+  if (category === 0) {
+    res.send(news);
+  } else {
+    const categoryList = news.filter((n) => n["category_id"] == category) || [];
+    res.send(categoryList);
+  }
 });
 
 app.listen(port, () => {
